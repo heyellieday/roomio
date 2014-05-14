@@ -1,5 +1,7 @@
 class GroupsController < ApplicationController
     def index
-        @groups = Group.al
+        @group = Group.find(2)
+        @user = @group.users.create(name: "Ellie")
+        @user.save
     end
 end

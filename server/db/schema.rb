@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140509191820) do
+ActiveRecord::Schema.define(version: 20140509224524) do
 
   create_table "groups", force: true do |t|
     t.string   "address"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20140509191820) do
     t.integer  "group_id"
     t.string   "profile_pic"
     t.string   "bio"
+    t.string   "password_digest"
   end
 
   add_index "users", ["group_id"], name: "index_users_on_group_id"

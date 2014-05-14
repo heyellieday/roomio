@@ -53,11 +53,21 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     })
 
     .state('app.roommate', {
-      url: "/roommates/:roommateId",
+      url: "/roommates/:roommateUsername",
       views: {
         'menuContent' :{
           templateUrl: "templates/roommate.html",
           controller: 'RoommateCtrl'
+        }
+      }
+    })
+    
+     .state('app.signup', {
+      url: "/signup",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/signup.html",
+          controller: 'SignupCtrl'
         }
       }
     });
