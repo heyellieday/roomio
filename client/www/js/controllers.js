@@ -4,17 +4,29 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('RoommateCtrl', function($scope, $stateParams, $http) {
+.controller('MemberCtrl', function($scope, $stateParams, $http) {
     
-    $http.get('roommates.json').success(function(data) {
-        roommates = data["roommates"];
-        $scope.roommate = roommates[$stateParams.roommateUsername];
+    $http.get('groups.json').success(function(data) {
+        members = data["members"];
+        $scope.member = members[$stateParams.memberUsername];
     });
 })
 
-.controller('RoommatesCtrl', function($scope, $http) {
-    $http.get('roommates.json').success(function(data) {
-        $scope.roommates = data["roommates"];
+.controller('GroupCtrl', function($scope, $http, $stateParams) {
+    $http.get('groups.json').success(function(data) {
+       if ($stateParams.groupId == "") {
+       
+       }else{
+            $scope.groups = data["groups"];
+            $scope.group = $scope.groups[$stateParams.groupId]; 
+            $scope.members = $scope.group["members"];
+       }
+    });
+})
+
+.controller('MenuCtrl', function($scope, $http, $stateParams) {
+    $http.get('groups.json').success(function(data) {
+        $scope.groups = data["groups"];
     });
 })
 
@@ -33,9 +45,59 @@ angular.module('starter.controllers', [])
             $scope.passwordRequired = 'Password Required';
          }
         console.log($scope.formInfo);
-        $state.transitionTo('app.roommates');
+        $state.transitionTo('app.userInfo');
     };
-    $http.get('roommates.json').success(function(data) {
-        $scope.roommates = data["roommates"];
-    });
+})
+
+.controller('UserInfoCtrl', function($scope, $http, $state) {
+    
+    $scope.formInfo = {};
+    $scope.startGroup = function() {
+        $scope.nameRequired = '';
+
+        if (!$scope.formInfo.Name) {
+            $scope.emailName = 'Name Required';
+          }
+
+        console.log($scope.formInfo);
+        $state.transitionTo('app.startGroup');
+    };
+    $scope.joinGroup = function() {
+        $scope.nameRequired = '';
+
+        if (!$scope.formInfo.Name) {
+            $scope.emailName = 'Name Required';
+          }
+
+        console.log($scope.formInfo);
+        $state.transitionTo('app.joinGroup');
+    };
+})
+.controller('StartGroupCtrl', function($scope, $http, $state) {
+    
+    $scope.formInfo = {};
+    $scope.sendInvites = function() {
+        $scope.nameRequired = '';
+
+        if (!$scope.formInfo.Name) {
+            $scope.nameRequired = 'Name Required';
+          }
+
+        console.log($scope.formInfo);
+        $state.transitionTo('app.group');
+    };
+})
+.controller('JoinGroupCtrl', function($scope, $http, $state) {
+    
+    $scope.formInfo = {};
+    $scope.addToGroup = function() {
+        $scope.pinRequired = '';
+
+        if (!$scope.formInfo.Pin) {
+            $scope.pinRequired = 'Pin Required';
+          }
+
+        console.log($scope.formInfo);
+        $state.transitionTo('app.group');
+    };
 })

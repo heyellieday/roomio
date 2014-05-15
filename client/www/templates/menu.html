@@ -13,11 +13,11 @@
     </header>
     <ion-content class="has-header">
       <ion-list>
-        <ion-item nav-clear menu-close href="#/app/roommates">
-          Roommates
-        </ion-item>
         <ion-item nav-clear menu-close href="#/app/profile">
           Profile
+        </ion-item>
+        <ion-item ng-repeat="group in groups" nav-clear menu-close href="#/app/groups/{{group.id}}">
+          {{group.name}}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/settings">
           Settings

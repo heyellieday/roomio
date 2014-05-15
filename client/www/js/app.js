@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: "/app",
       abstract: true,
       templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
+      controller: 'MenuCtrl'
     })
 
     .state('app.search', {
@@ -42,22 +42,22 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
-    .state('app.roommates', {
-      url: "/roommates",
+    .state('app.group', {
+        url: "/groups/:groupId",
       views: {
         'menuContent' :{
-          templateUrl: "templates/roommates.html",
-          controller: 'RoommatesCtrl'
+          templateUrl: "templates/group.html",
+          controller: 'GroupCtrl'
         }
       }
     })
 
     .state('app.roommate', {
-      url: "/roommates/:roommateUsername",
+        url: "/groups/:groupId/:memberUsername",
       views: {
         'menuContent' :{
-          templateUrl: "templates/roommate.html",
-          controller: 'RoommateCtrl'
+          templateUrl: "templates/member.html",
+          controller: 'MemberCtrl'
         }
       }
     })
@@ -70,8 +70,36 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           controller: 'SignupCtrl'
         }
       }
+    })
+  
+  .state('app.userInfo', {
+      url: "/userInfo",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/userInfo.html",
+          controller: 'UserInfoCtrl'
+        }
+      }
+    })
+  .state('app.startGroup', {
+      url: "/startGroup",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/startGroup.html",
+          controller: 'StartGroupCtrl'
+        }
+      }
+    })
+  .state('app.joinGroup', {
+      url: "/joinGroup",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/joinGroup.html",
+          controller: 'JoinGroupCtrl'
+        }
+      }
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/roommates');
+  $urlRouterProvider.otherwise('/app/groups/1');
 });
 
