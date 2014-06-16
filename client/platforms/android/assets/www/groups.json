@@ -3,6 +3,8 @@
         "1": {
             "name": "Group 1",
             "id": "1",
+            "homeLatitude": "45.430",
+            "homeLongitude": "-84.986",
             "members": {
                 "heyellieday": {
                     "name": "Ellie",
@@ -11,7 +13,9 @@
                     "profileImg": "https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-ash4/t1.0-9/10153765_1403043279972803_7769249082470726667_n.jpg",
                     "status": "in",
                     "username": "heyellieday",
-                    "distance": "Currently home."
+                    "distance": "Currently home.",
+                    "latitude": "42.696",
+                    "longitude": "-87.831"
                 },
                 "vijay": {
                     "name": "Vijay",
@@ -20,7 +24,9 @@
                     "profileImg": "https://lh4.googleusercontent.com/-k8mKIvx7y_o/Thm9E_mN5pI/AAAAAAAACYM/WLOXHeBQwKI/w268-h267-no/100_1606.JPG.jpg",
                     "status": "in",
                     "username": "vijay",
-                    "distance": "Currently home."
+                    "distance": "Currently home.",
+                    "latitude": "43.696",
+                    "longitude": "-87.831"
                 },
                 "kate": {
                     "name": "Kate",
@@ -29,7 +35,9 @@
                     "profileImg": "https://scontent-b.xx.fbcdn.net/hphotos-prn2/t1.0-9/p720x720/1175613_10201864662124380_658618106_n.jpg",
                     "status": "out",
                     "username": "kate",
-                    "distance": "20 minutes from home."
+                    "distance": "20 minutes from home.",
+                    "latitude": "42.696",
+                    "longitude": "-87.831"
                 },
                 "kate2": {
                     "name": "Kate",
@@ -37,14 +45,18 @@
                     "bio": "Last here 3 hours ago",
                     "profileImg": "https://scontent-b.xx.fbcdn.net/hphotos-prn2/t1.0-9/p720x720/1175613_10201864662124380_658618106_n.jpg",
                     "status": "out",
-                    "username": "kate",
-                    "distance": "20 minutes from home."
+                    "username": "kate2",
+                    "distance": "20 minutes from home.",
+                    "latitude": "43.696",
+                    "longitude": "-87.831"
                 }
             }
         },
         "2": {
             "name": "Group 2",
             "id": "2",
+            "homeLatitude": "42.696",
+            "homeLongitude": "-87.831",
             "members": {
                 "heyellieday": {
                     "name": "Not Ellie",
@@ -53,7 +65,9 @@
                     "profileImg": "https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-ash4/t1.0-9/10153765_1403043279972803_7769249082470726667_n.jpg",
                     "status": "in",
                     "username": "heyellieday",
-                    "distance": "Currently home."
+                    "distance": "Currently home.",
+                    "latitude": "42.696",
+                    "longitude": "-87.831"
                 },
                 "vijay": {
                     "name": "Not Vijay",
@@ -62,7 +76,9 @@
                     "profileImg": "https://lh4.googleusercontent.com/-k8mKIvx7y_o/Thm9E_mN5pI/AAAAAAAACYM/WLOXHeBQwKI/w268-h267-no/100_1606.JPG.jpg",
                     "status": "in",
                     "username": "vijay",
-                    "distance": "Currently home."
+                    "distance": "Currently home.",
+                    "latitude": "42.696",
+                    "longitude": "-87.831"
                 },
                 "kate": {
                     "name": "Not Kate",
@@ -71,7 +87,9 @@
                     "profileImg": "https://scontent-b.xx.fbcdn.net/hphotos-prn2/t1.0-9/p720x720/1175613_10201864662124380_658618106_n.jpg",
                     "status": "out",
                     "username": "kate",
-                    "distance": "20 minutes from home."
+                    "distance": "20 minutes from home.",
+                    "latitude": "42.696",
+                    "longitude": "-87.831"
                 },
                 "kate2": {
                     "name": "Not Kate",
@@ -80,7 +98,9 @@
                     "profileImg": "https://scontent-b.xx.fbcdn.net/hphotos-prn2/t1.0-9/p720x720/1175613_10201864662124380_658618106_n.jpg",
                     "status": "out",
                     "username": "kate",
-                    "distance": "20 minutes from home."
+                    "distance": "20 minutes from home.",
+                    "latitude": "42.696",
+                    "longitude": "-87.831"
                 }
             }
         }

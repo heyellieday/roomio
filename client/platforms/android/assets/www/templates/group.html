@@ -9,7 +9,7 @@
   </div>
 </div>
     <ion-list>
-        <a ng-repeat="member in members" href="#/app/group/{{member.username}}" class="item item-thumbnail-left" href="#">
+        <a ng-repeat="member in members" ng-controller="MemberCtrl" href="#/app/group/{{member.username}}" class="item item-thumbnail-left" href="#">
       <img class="{{member.status}}" src="{{member.profileImg}}">
       <h2>{{member.name}}</h2>
       <p>{{member.distance}}</p>

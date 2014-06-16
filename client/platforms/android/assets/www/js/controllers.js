@@ -3,26 +3,144 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope) {
 })
 
+.factory('gps', function() {
+        return gps = {
+            GPSWatchId : null,
+            gpsErrorCount : 0,
 
-.controller('MemberCtrl', function($scope, $stateParams, $http) {
-    
-    $http.get('groups.json').success(function(data) {
-        members = data["members"];
-        $scope.member = members[$stateParams.memberUsername];
-    });
+            homeLatitude : null,
+            homeLongitude : null,
+
+            memberLatitude : null,
+            memberLongitude : null,
+
+            afterInit : null,
+
+            init : function() {
+                gps.initToggleListener();
+                gps.start();
+            },
+            initToggleListener : function() {
+                /*$('#locationToggle').bind("change", function(event, ui) {
+                    if (this.value == "true") {
+                        gps.start();
+                    } else {
+                        gps.stop();
+                    }
+                });
+            */
+            },
+            start : function() {
+                var gpsOptions = {
+                    enableHighAccuracy : false,
+                    timeout : 1000 * 60 * 4,
+                    maximumAge : 1 * 1000
+                };
+                gps.GPSWatchId = navigator.geolocation.watchPosition(gps.onSuccess,
+                        gps.onError, gpsOptions);
+            },
+            stop : function() {
+                navigator.geolocation.clearWatch(gps.GPSWatchId);
+            },
+            onSuccess : function(position) {
+                // reset error counter
+                gpsErrorCount = 0;
+                console.log("We have your location!" + ' Latitude: ' + position.coords.latitude.toFixed(3) + ' Longitude: ' + position.coords.longitude.toFixed(3));
+                gps.memberLatitude = position.coords.latitude.toFixed(3);
+                gps.memberLongitude = position.coords.longitude.toFixed(3);
+                gps.isHome(position);
+                gps.afterInit;
+
+            },
+            onError : function(error) {
+                gps.gpsErrorCount++;
+
+                if (gps.gpsErrorCount > 3) {
+                    elem = document.getElementById('locationInfo');
+                    $(elem).removeClass("success");
+                    $(elem).addClass("fail");
+                    elem.innerHTML = ('There is an error, restarting GPS. '
+                             + error.message);
+                    console.log('error with GPS: error.code: ' + error.code
+                            + ' Message: ' + error.message);
+
+                    // Restart GPS listener, fixes most issues.
+                    gps.stop();
+                    gps.start();
+                }
+            },
+            isHome : function(position){
+                if (position.coords.latitude.toFixed(3) == gps.homeLatitude && position.coords.longitude.toFixed(3) == gps.homeLongitude) {
+                    console.log("true");
+                    return true;
+                } else {
+                    console.log("false");
+                    return false;
+                }
+            }
+        };
 })
 
-.controller('GroupCtrl', function($scope, $http, $stateParams) {
+
+.controller('MemberCtrl', function($scope, $stateParams, $http) {
+})
+
+.controller('GroupCtrl', ['$scope', '$http', '$stateParams', 'gps', '$timeout', '$firebase', function($scope, $http, $stateParams, gps, $timeout, $firebase) {
     $http.get('groups.json').success(function(data) {
        if ($stateParams.groupId == "") {
        
        }else{
-            $scope.groups = data["groups"];
-            $scope.group = $scope.groups[$stateParams.groupId]; 
-            $scope.members = $scope.group["members"];
+
+            var groupsRef = new Firebase("https://shining-fire-8078.firebaseio.com/groups");
+            $scope.groups = $firebase(groupsRef);
+            function afterInit () {
+                var currentUser = "kate";
+                console.log($scope.groups);
+                $scope.group = $scope.groups[$stateParams.groupId]; 
+                console.log($scope.group);
+                $scope.members = $scope.group.members;
+                
+                currentUser = $scope.members["kate"];
+                console.log(currentUser);
+
+                homeLatitude =  $scope.group["homeLatitude"];
+                gps.homeLatitude = homeLatitude;
+
+                homeLongitude =  $scope.group["homeLongitude"];
+                gps.homeLongitude = homeLongitude;
+                currentUser.latitude = gps.memberLatitude;
+                currentUser.longitude = gps.memberLongitude;
+
+                console.log($scope.group);
+
+                $scope.members[currentUser.username] = currentUser;
+
+                for (var member in $scope.members) {
+                        member = $scope.members[member];
+                        console.log(member.latitude);
+                        if (member["latitude"] == gps.homeLatitude) {
+                            member["status"] = "in";
+                            console.log(member.name + " is " + member.status);
+                        }else {
+                            member["status"] = "out";
+                            console.log(member.name + " is " + member.status);
+                        } 
+                        $scope.members[member.username] = member;
+                        console.log($scope.members[member.username]);
+                }
+                console.log($scope.members);
+                $scope.group.members = $scope.members;
+                $scope.groups[$scope.group.id] = $scope.group;
+                console.log($scope.groups[$scope.group.id]);
+                groupsRef.update($scope.groups[$scope.group.id]);
+
+            }
+            gps.init();
+            $timeout(function() { afterInit(); }, 4000);
+
        }
     });
-})
+}])
 
 .controller('MenuCtrl', function($scope, $http, $stateParams) {
     $http.get('groups.json').success(function(data) {
@@ -74,7 +192,28 @@ angular.module('starter.controllers', [])
     };
 })
 .controller('StartGroupCtrl', function($scope, $http, $state) {
-    
+    var geocoder = new GClientGeocoder();
+
+    function showAddress(address) {
+      geocoder.getLatLng(
+        address,
+        function(point) {
+          if (!point) {
+            alert(address + " not found");
+          } else {
+            map.setCenter(point, 13);
+            var marker = new GMarker(point);
+            map.addOverlay(marker);
+
+            // As this is user-generated content, we display it as
+            // text rather than HTML to reduce XSS vulnerabilities.
+            marker.openInfoWindow(document.createTextNode(address));
+          }
+        }
+      );
+    }
+
+
     $scope.formInfo = {};
     $scope.sendInvites = function() {
         $scope.nameRequired = '';

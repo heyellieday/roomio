@@ -1,2 +1,2 @@
-/Users/ellieday/Development/Roomio/client/platforms/android/ant-build/AndroidManifest.xml : \
-/Users/ellieday/Development/Roomio/client/platforms/android/AndroidManifest.xml \
+/Users/ellieday/Development/roomio/client/platforms/android/ant-build/AndroidManifest.xml : \
+/Users/ellieday/Development/roomio/client/platforms/android/AndroidManifest.xml \

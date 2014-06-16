@@ -3,8 +3,8 @@
         "1": {
             "name": "Group 1",
             "id": "1",
-            "homeLatitude": "42.696",
-            "homeLongitude": "-87.831",
+            "homeLatitude": "45.430",
+            "homeLongitude": "-84.986",
             "members": {
                 "heyellieday": {
                     "name": "Ellie",
@@ -45,7 +45,7 @@
                     "bio": "Last here 3 hours ago",
                     "profileImg": "https://scontent-b.xx.fbcdn.net/hphotos-prn2/t1.0-9/p720x720/1175613_10201864662124380_658618106_n.jpg",
                     "status": "out",
-                    "username": "kate",
+                    "username": "kate2",
                     "distance": "20 minutes from home.",
                     "latitude": "43.696",
                     "longitude": "-87.831"
