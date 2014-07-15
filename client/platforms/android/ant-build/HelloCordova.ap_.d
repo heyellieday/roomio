@@ -108,6 +108,7 @@
 /Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/roommate.html \
 /Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/search.html \
 /Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/settings.html \
+/Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/signin.html \
 /Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/signup.html \
 /Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/startGroup.html \
 /Users/ellieday/Development/roomio/client/platforms/android/assets/www/templates/userInfo.html \

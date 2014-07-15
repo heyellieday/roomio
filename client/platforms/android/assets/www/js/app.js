@@ -71,6 +71,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'firebase'])
         }
       }
     })
+
+    .state('app.signin', {
+      url: "/signin",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/signin.html",
+          controller: 'SigninCtrl'
+        }
+      }
+    })
   
   .state('app.userInfo', {
       url: "/userInfo",

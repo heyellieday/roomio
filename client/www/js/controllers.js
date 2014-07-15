@@ -85,7 +85,7 @@ angular.module('starter.controllers', [])
 .controller('MemberCtrl', function($scope, $stateParams, $http) {
 })
 
-.controller('GroupCtrl', ['$scope', '$http', '$stateParams', 'gps', '$timeout', '$firebase', function($scope, $http, $stateParams, gps, $timeout, $firebase) {
+.controller('GroupCtrl', ['$scope', '$http', '$stateParams', 'gps', '$timeout', '$firebase', '$rootScope', function($scope, $http, $stateParams, gps, $timeout, $firebase, $rootScope) {
     $http.get('groups.json').success(function(data) {
        if ($stateParams.groupId == "") {
        
@@ -94,13 +94,13 @@ angular.module('starter.controllers', [])
             var groupsRef = new Firebase("https://shining-fire-8078.firebaseio.com/groups");
             $scope.groups = $firebase(groupsRef);
             function afterInit () {
-                var currentUser = "kate";
+                var currentUser = 1; // $rootScope.userUID;
                 console.log($scope.groups);
                 $scope.group = $scope.groups[$stateParams.groupId]; 
                 console.log($scope.group);
                 $scope.members = $scope.group.members;
                 
-                currentUser = $scope.members["kate"];
+                currentUser = $scope.members["1"];
                 console.log(currentUser);
 
                 homeLatitude =  $scope.group["homeLatitude"];
@@ -113,7 +113,7 @@ angular.module('starter.controllers', [])
 
                 console.log($scope.group);
 
-                $scope.members[currentUser.username] = currentUser;
+                $scope.members[currentUser.id] = currentUser;
 
                 for (var member in $scope.members) {
                         member = $scope.members[member];
@@ -125,8 +125,8 @@ angular.module('starter.controllers', [])
                             member["status"] = "out";
                             console.log(member.name + " is " + member.status);
                         } 
-                        $scope.members[member.username] = member;
-                        console.log($scope.members[member.username]);
+                        $scope.members[member.id] = member;
+                        console.log($scope.members[member.id]);
                 }
                 console.log($scope.members);
                 $scope.group.members = $scope.members;
@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
 
             }
             gps.init();
-            $timeout(function() { afterInit(); }, 4000);
+            $timeout(function() { afterInit(); }, 3000);
 
        }
     });
@@ -148,12 +148,28 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('SignupCtrl', function($scope, $http, $state) {
+.controller('SignupCtrl', function($scope, $http, $state, $firebase, $rootScope) {
+    $rootScope.appRef = new Firebase("https://shining-fire-8078.firebaseio.com");
+
+    var auth = new FirebaseSimpleLogin($rootScope.appRef, function(error, user) {
+      if (error) {
+        // an error occurred while attempting login
+        console.log(error);
+      } else if (user) {
+        // user authenticated with Firebase
+        console.log('User ID: ' + user.uid + ', Provider: ' + user.provider);
+      } else {
+        // user is logged out
+      }
+    });
     
     $scope.formInfo = {};
     $scope.saveData = function() {
         $scope.emailRequired = '';
         $scope.passwordRequired = '';
+        password = $scope.formInfo.Password;
+        email = $scope.formInfo.Email;
+
 
         if (!$scope.formInfo.Email) {
             $scope.emailRequired = 'Email Required';
@@ -162,12 +178,61 @@ angular.module('starter.controllers', [])
           if (!$scope.formInfo.Password) {
             $scope.passwordRequired = 'Password Required';
          }
+
+         auth.createUser(email, password, function(error, user) {
+            if (!error) {
+                console.log('User Id: ' + user.uid + ', Email: ' + user.email);
+            }
+         });
         console.log($scope.formInfo);
         $state.transitionTo('app.userInfo');
     };
 })
 
-.controller('UserInfoCtrl', function($scope, $http, $state) {
+.controller('SigninCtrl', function($scope, $http, $state, $firebase, $rootScope) {
+    $rootScope.appRef = new Firebase("https://shining-fire-8078.firebaseio.com");
+
+    var auth = new FirebaseSimpleLogin($rootScope.appRef, function(error, user) {
+      if (error) {
+        // an error occurred while attempting login
+        console.log(error);
+      } else if (user) {
+        // user authenticated with Firebase
+        $rootScope.userUID = user.uid; 
+        console.log(user.uid + ', Provider: ' + user.provider);
+      } else {
+        // user is logged out
+      }
+    });
+    
+    $scope.formInfo = {};
+    $scope.saveData = function() {
+        $scope.emailRequired = '';
+        $scope.passwordRequired = '';
+        password = $scope.formInfo.Password;
+        email = $scope.formInfo.Email;
+
+
+        if (!$scope.formInfo.Email) {
+            $scope.emailRequired = 'Email Required';
+          }
+
+          if (!$scope.formInfo.Password) {
+            $scope.passwordRequired = 'Password Required';
+         }
+
+        auth.login('password', {
+          email: email,
+          password: password,
+          rememberMe: true
+        });
+        console.log($scope.formInfo);
+        $state.transitionTo('app.group');
+    };
+})
+
+
+.controller('UserInfoCtrl', function($scope, $http, $state, $rootScope) {
     
     $scope.formInfo = {};
     $scope.startGroup = function() {
@@ -192,27 +257,27 @@ angular.module('starter.controllers', [])
     };
 })
 .controller('StartGroupCtrl', function($scope, $http, $state) {
-    var geocoder = new GClientGeocoder();
-
-    function showAddress(address) {
-      geocoder.getLatLng(
-        address,
-        function(point) {
-          if (!point) {
-            alert(address + " not found");
-          } else {
-            map.setCenter(point, 13);
-            var marker = new GMarker(point);
-            map.addOverlay(marker);
-
-            // As this is user-generated content, we display it as
-            // text rather than HTML to reduce XSS vulnerabilities.
-            marker.openInfoWindow(document.createTextNode(address));
-          }
-        }
-      );
+    $scope.formInfo = {};
+    var geocoder;
+    var map;
+    $scope.initialize  = function() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(-34.397, 150.644);
     }
 
+    $scope.initialize();
+
+    $scope.codeAddress = function() {
+        var address = $scope.formInfo.Address;
+        console.log(address);
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results);
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+     });
+    }
 
     $scope.formInfo = {};
     $scope.sendInvites = function() {

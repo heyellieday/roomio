@@ -6,7 +6,7 @@
             "homeLatitude": "45.430",
             "homeLongitude": "-84.986",
             "members": {
-                "heyellieday": {
+                "1": {
                     "name": "Ellie",
                     "id": "1",
                     "bio": "Here for 10 hours",
@@ -17,7 +17,7 @@
                     "latitude": "42.696",
                     "longitude": "-87.831"
                 },
-                "vijay": {
+                "2": {
                     "name": "Vijay",
                     "id": "2",
                     "bio": "Here for 2 hours",
@@ -28,7 +28,7 @@
                     "latitude": "43.696",
                     "longitude": "-87.831"
                 },
-                "kate": {
+                "3": {
                     "name": "Kate",
                     "id": "3",
                     "bio": "Last here 3 hours ago",
@@ -39,7 +39,7 @@
                     "latitude": "42.696",
                     "longitude": "-87.831"
                 },
-                "kate2": {
+                "4": {
                     "name": "Kate",
                     "id": "3",
                     "bio": "Last here 3 hours ago",
